@@ -2,23 +2,23 @@ package com.example.springdemo.service;
 
 import com.example.springdemo.entity.User;
 import com.example.springdemo.dto.CrmUser;
-import org.springframework.security.core.userdetails.UserDetailsService;
+
 
 import java.util.List;
 
-public interface UserService extends UserDetailsService {
+public interface UserService{
 
-    public List<User> findAll();
+    List<User> findAll();
 
-    public User findById(int theId);
+    User findById(int theId);
 
-    public void save(User user);
+    void save(User user);
 
-    public void deleteById(int theId);
+    void deleteById(int theId);
 
-    public User findByUserName(String userName);
+    User findByUserName(String userName);
 
-    public void save(CrmUser crmUser);
+    void save(CrmUser crmUser);
 
 
 

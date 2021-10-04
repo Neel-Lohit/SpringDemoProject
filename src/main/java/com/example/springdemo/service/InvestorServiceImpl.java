@@ -3,22 +3,19 @@ package com.example.springdemo.service;
 
 import com.example.springdemo.dao.*;
 import com.example.springdemo.entity.Investor;
-import com.example.springdemo.entity.Role;
+
 import com.example.springdemo.dto.CrmUser;
+import com.example.springdemo.exception.InvestorNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.Collection;
+
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
 
 @Service
 public class InvestorServiceImpl implements InvestorService {
@@ -66,7 +63,7 @@ public class InvestorServiceImpl implements InvestorService {
         investor.setState(crmUser.getState());
 
         // give investor default role of "employee"
-        investor.setRoles(Arrays.asList(roleDao.findRoleByName("ROLE_INVESTOR")));
+        investor.setRoles(Collections.singletonList(roleDao.findRoleByName("ROLE_INVESTOR")));
 
         // save investor in the database
         investorDao.save(investor);
@@ -83,12 +80,12 @@ public class InvestorServiceImpl implements InvestorService {
     public Investor findById(int theId) {
         Optional<Investor> result = investorRepository.findById(theId);
 
-        Investor investor = null;
+        Investor investor;
         if (result.isPresent()){
             investor = result.get();
         }
         else {
-            throw new RuntimeException("Did not find User id - " + theId);
+            throw new InvestorNotFoundException("Did not find User id - " + theId);
         }
         return investor;
     }
@@ -104,18 +101,5 @@ public class InvestorServiceImpl implements InvestorService {
         investorRepository.deleteById(theId);
     }
 
-    @Override
-    @Transactional
-    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        Investor investor = investorDao.findByUserName(userName);
-        if (investor == null) {
-            throw new UsernameNotFoundException("Invalid username or password.");
-        }
-        return new org.springframework.security.core.userdetails.User(investor.getUserName(), investor.getPassword(),
-                mapRolesToAuthorities(investor.getRoles()));
-    }
 
-    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
-        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
-    }
 }
