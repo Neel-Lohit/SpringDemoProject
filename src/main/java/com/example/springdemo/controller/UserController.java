@@ -1,15 +1,11 @@
 package com.example.springdemo.controller;
 
 import com.example.springdemo.entity.User;
-import com.example.springdemo.required.CrmUser;
 import com.example.springdemo.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller

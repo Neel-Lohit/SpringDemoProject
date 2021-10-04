@@ -4,8 +4,7 @@ package com.example.springdemo.service;
 import com.example.springdemo.dao.*;
 import com.example.springdemo.entity.Investor;
 import com.example.springdemo.entity.Role;
-import com.example.springdemo.entity.User;
-import com.example.springdemo.required.CrmUser;
+import com.example.springdemo.dto.CrmUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -84,14 +83,14 @@ public class InvestorServiceImpl implements InvestorService {
     public Investor findById(int theId) {
         Optional<Investor> result = investorRepository.findById(theId);
 
-        Investor Investor = null;
+        Investor investor = null;
         if (result.isPresent()){
-            Investor = result.get();
+            investor = result.get();
         }
         else {
             throw new RuntimeException("Did not find User id - " + theId);
         }
-        return Investor;
+        return investor;
     }
 
     @Override

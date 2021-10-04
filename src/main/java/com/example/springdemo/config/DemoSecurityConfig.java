@@ -1,10 +1,10 @@
 package com.example.springdemo.config;
 
-import com.example.springdemo.service.InvestorService;
+
+import com.example.springdemo.service.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,11 +14,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-@Order(1)
-public class DemoSecurityConfigInvestor extends WebSecurityConfigurerAdapter {
+public class DemoSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private InvestorService investorService;
+    private SecurityService securityService;
+
 
     @Autowired
     private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
@@ -29,7 +29,7 @@ public class DemoSecurityConfigInvestor extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
-                .antMatchers("/").hasRole("INVESTOR")
+                .antMatchers("/").hasAnyRole("USER","INVESTOR")
                 .antMatchers("/leaders/**").hasRole("INVESTOR")
                 .antMatchers("/systems/**").hasRole("ADMIN")
                 .and()
@@ -46,23 +46,24 @@ public class DemoSecurityConfigInvestor extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(authenticationProvider1());
+        auth.authenticationProvider(authenticationProvider());
 
     }
 
     @Bean
-    public BCryptPasswordEncoder passwordEncoder1() {
+    public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     //authenticationProvider bean definition
     @Bean
-    public DaoAuthenticationProvider authenticationProvider1() {
+    public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
-        auth.setUserDetailsService(investorService); //set the custom user details service
-        auth.setPasswordEncoder(passwordEncoder1()); //set the password encoder - bcrypt
+        auth.setUserDetailsService(securityService); //set the custom user details service
+        auth.setPasswordEncoder(passwordEncoder()); //set the password encoder - bcrypt
         return auth;
     }
+
 
 
 }

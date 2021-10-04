@@ -6,7 +6,7 @@ import com.example.springdemo.dao.UserDao;
 import com.example.springdemo.dao.UserRepository;
 import com.example.springdemo.entity.Role;
 import com.example.springdemo.entity.User;
-import com.example.springdemo.required.CrmUser;
+import com.example.springdemo.dto.CrmUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -85,14 +85,14 @@ public class UserServiceImpl implements UserService {
     public User findById(int theId) {
         Optional<User> result = userRepository.findById(theId);
 
-        User User = null;
+        User user = null;
         if (result.isPresent()){
-            User = result.get();
+            user = result.get();
         }
         else {
             throw new RuntimeException("Did not find User id - " + theId);
         }
-        return User;
+        return user;
     }
 
     @Override

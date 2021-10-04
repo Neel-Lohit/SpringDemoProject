@@ -1,7 +1,9 @@
 package com.example.springdemo.controller;
 
+import com.example.springdemo.entity.Investor;
 import com.example.springdemo.entity.User;
-import com.example.springdemo.required.CrmUser;
+import com.example.springdemo.dto.CrmUser;
+import com.example.springdemo.service.InvestorService;
 import com.example.springdemo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -21,8 +23,13 @@ public class UserRegistrationController {
 	
     @Autowired
     private UserService userService;
+
+	@Autowired
+	private InvestorService investorService;
 	
     private Logger logger = Logger.getLogger(getClass().getName());
+
+	String userRegistrationForm = "user-registration-form";
     
 	@InitBinder
 	public void initBinder(WebDataBinder dataBinder) {
@@ -37,7 +44,7 @@ public class UserRegistrationController {
 		
 		theModel.addAttribute("crmUser", new CrmUser());
 		
-		return "user-registration-form";
+		return userRegistrationForm;
 	}
 
 	@PostMapping("/processUserRegistrationForm")
@@ -51,17 +58,18 @@ public class UserRegistrationController {
 		
 		// form validation
 		 if (theBindingResult.hasErrors()){
-			 return "user-registration-form";
+			 return userRegistrationForm;
 	        }
 
 		// check the database if user already exists
-        User existing = userService.findByUserName(userName);
-        if (existing != null){
+        User existingUser = userService.findByUserName(userName);
+		Investor existingInvestor = investorService.findByUserName(userName);
+        if (existingUser != null || existingInvestor != null){
         	theModel.addAttribute("crmUser", new CrmUser());
 			theModel.addAttribute("registrationError", "User name already exists.");
 
 			logger.warning("User name already exists.");
-        	return "user-registration-form";
+        	return userRegistrationForm;
         }
         
         // create user account        						

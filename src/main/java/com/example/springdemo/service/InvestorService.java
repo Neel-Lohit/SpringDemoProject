@@ -1,7 +1,7 @@
 package com.example.springdemo.service;
 
 import com.example.springdemo.entity.Investor;
-import com.example.springdemo.required.CrmUser;
+import com.example.springdemo.dto.CrmUser;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;

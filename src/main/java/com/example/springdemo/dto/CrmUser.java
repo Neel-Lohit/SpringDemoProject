@@ -1,4 +1,4 @@
-package com.example.springdemo.required;
+package com.example.springdemo.dto;
 
 import com.example.springdemo.validation.FieldMatch;
 import com.example.springdemo.validation.ValidEmail;
