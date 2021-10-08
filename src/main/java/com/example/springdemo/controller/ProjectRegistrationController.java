@@ -61,7 +61,7 @@ public class ProjectRegistrationController {
 
         // create user account
 
-        logger.log(Level.INFO,"Successfully recieved user: {0}",theCrmProjects.getUser().getId());
+        logger.log(Level.INFO,"Successfully recieved user: {0}",userId);
         User user = userService.findById(userId);
         theCrmProjects.setUser(user);
 

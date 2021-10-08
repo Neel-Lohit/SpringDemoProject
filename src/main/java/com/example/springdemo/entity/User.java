@@ -3,7 +3,6 @@ package com.example.springdemo.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -15,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class User implements Serializable {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,7 +55,7 @@ public class User implements Serializable {
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private transient Collection<Role> roles;
+    private Collection<Role> roles;
 
     public User(int id, String firstName, String lastName, String email, String phoneNo, String gender, String qualification, String organisation, String city, String state) {
         this.id = id;
@@ -93,7 +92,7 @@ public class User implements Serializable {
 
 
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "user", cascade = {CascadeType.ALL})
-    private transient List<Projects> userProjects;
+    private List<Projects> userProjects;
 
     public void addProject(Projects project)
     {
