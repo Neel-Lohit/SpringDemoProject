@@ -6,10 +6,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class DemoController {
 
-	@GetMapping("/")
-	public String showHome() {
+	@GetMapping("/userHome")
+	public String showUserHome() {
 		
-		return "home";
+		return "userHome";
+	}
+
+
+	@GetMapping("/investorHome")
+	public String showInvestorHome() {
+
+		return "investorHome";
 	}
 
 }

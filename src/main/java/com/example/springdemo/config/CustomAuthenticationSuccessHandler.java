@@ -39,18 +39,18 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
 			throws IOException, ServletException {
 
-		System.out.println("\n\nIn customAuthenticationSuccessHandler\n\n");
+		logger.info("\n\nIn customAuthenticationSuccessHandler\n\n");
 
 
 
 		String userName = authentication.getName();
 		
-		System.out.println("userName=" + userName);
+		logger.info("userName=" + userName);
 
 
 		Map<String, String> roleTargetUrlMap = new HashMap<>();
-		roleTargetUrlMap.put("ROLE_USER", "/");
-		roleTargetUrlMap.put("ROLE_INVESTOR", "/");
+		roleTargetUrlMap.put("ROLE_USER", "/userHome");
+		roleTargetUrlMap.put("ROLE_INVESTOR", "/investorHome");
 		roleTargetUrlMap.put("ROLE_ADMIN", "/");
 
 		final Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();

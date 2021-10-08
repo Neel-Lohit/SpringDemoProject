@@ -1,11 +1,9 @@
 package com.example.springdemo.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 
 @Entity
@@ -13,7 +11,8 @@ import javax.persistence.*;
 @Getter
 @Setter
 @AllArgsConstructor
-@ToString
+@NoArgsConstructor
+@Embeddable
 public class Projects {
 
 
@@ -22,11 +21,6 @@ public class Projects {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "investor_id")
-    private int investorId;
-
-    @Column(name = "user_id")
-    private int userId;
 
     @Column(name = "title")
     private String title;
@@ -38,13 +32,31 @@ public class Projects {
     private String techstack;
 
     @Column(name = "investment")
-    private int investment;
+    private String investment;
 
     @Column(name = "duration")
     private String duration;
 
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "projects", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    private List<InvestorProjects> investorProjects;
 
 
 
 
+
+    @Override
+    public String toString() {
+        return "Projects{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", techstack='" + techstack + '\'' +
+                ", investment='" + investment + '\'' +
+                ", duration='" + duration + '\'' +
+                '}';
+    }
 }
