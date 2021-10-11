@@ -1,7 +1,6 @@
 package com.example.springdemo.dao;
 
 import com.example.springdemo.entity.Investor;
-import com.example.springdemo.entity.User;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,13 +32,6 @@ public class InvestorDaoImpl implements InvestorDao {
 		return theInvestor;
 	}
 
-	@Override
-	public void save(Investor theInvestor) {
-		// get current hibernate session
-		Session currentSession = entityManager.unwrap(Session.class);
 
-		// create the user ... finally LOL
-		currentSession.saveOrUpdate(theInvestor);
-	}
 
 }

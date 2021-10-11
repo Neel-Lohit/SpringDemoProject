@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
         user.setRoles(Collections.singletonList(roleDao.findRoleByName("ROLE_USER")));
 
         // save user in the database
-        userDao.save(user);
+        userRepository.save(user);
     }
 
 

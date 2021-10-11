@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,12 +36,21 @@ public class InvestorController {
     }
 
     @GetMapping("/listProjects")
-    public String listInvestorProjects(@RequestParam("investorId") int investorId,
+    public String listProjects(@RequestParam("investorId") int investorId,
                                        Model model){
 
-        logger.log(Level.INFO,"investor id: {0}",investorId);
+        logger.log(Level.INFO,"listing public projects for investor id: {0}",investorId);
 
         List<Projects> projects = projectService.findAll();
+        List<InvestorProjects> investorProjects = investorProjectService.findAll();
+
+        for (InvestorProjects invProj:investorProjects){
+            Projects proj = projectService.findById(invProj.getKey().getProjectId());
+            projects.remove(proj);
+        }
+
+
+
 
         model.addAttribute("Projects",projects);
        model.addAttribute("investorId",investorId);
@@ -53,8 +63,8 @@ public class InvestorController {
                                      @RequestParam("projectId") int projectId,
                                      Model model){
 
-        logger.log(Level.INFO,"investor id: {0}",investorId);
-        logger.log(Level.INFO,"project id: {0}",projectId);
+        logger.log(Level.INFO,"investor of investor id: {0}{0}",investorId);
+        logger.log(Level.INFO,"invested in project of project id: {0}",projectId);
 
         Investor investor = investorService.findById(investorId);
 
@@ -69,6 +79,40 @@ public class InvestorController {
        investorProjectService.save(investorProjects);
 
         return "redirect:/investor/listProjects?investorId=" + investorId;
+    }
+
+    @GetMapping("/listInvestorProjects")
+    public String listInvestorProjects(@RequestParam("investorId") int investorId,
+                                       Model model){
+
+        logger.log(Level.INFO,"listing projects of investor id: {0}",investorId);
+
+        Investor investor = investorService.findById(investorId);
+
+
+        List<Projects> projects = new ArrayList<>();
+        for (InvestorProjects inv: investor.getInvestorProjects()){
+
+            projects.add(projectService.findById(inv.getKey().getProjectId()));
+
+        }
+
+
+        model.addAttribute("investorProjects",projects);
+
+        return "list-investor-projects";
+    }
+
+    @GetMapping("/deInvest")
+    public String deleteProject(@RequestParam("projectId") int id){
+
+
+        int investorId = investorProjectService.findById(new ProjectPK(id)).getInvestor().getId();
+        investorProjectService.deleteById(new ProjectPK(id));
+
+        logger.log(Level.INFO,"deleting project of project id: {0}",id);
+        logger.log(Level.INFO,"for investor id: {0}",investorId);
+        return "redirect:/investor/listInvestorProjects/?investorId=" + investorId;
     }
 
 

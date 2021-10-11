@@ -36,10 +36,7 @@
 				<li th:classappend="${module == 'home' ? 'active' : ''}">
 					<a href="#" th:href="@{/user/listUserProjects(userId=${session.user.id})}">My projects</a>
 				</li>
-				<li th:classappend="${module == 'tasks' ? 'active' : ''}">
 
-					<a href="#" th:href="@{/}">Public projects</a>
-				</li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li th:if="${#authorization.expression('!isAuthenticated()')}">

@@ -60,7 +60,7 @@ public class Investor{
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<Role> roles;
 
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "investor", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "investor", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH,CascadeType.REMOVE})
     private List<InvestorProjects> investorProjects;
 
 

@@ -64,6 +64,7 @@ public class ProjectRegistrationController {
         logger.log(Level.INFO,"Successfully recieved user: {0}",userId);
         User user = userService.findById(userId);
         theCrmProjects.setUser(user);
+        logger.log(Level.INFO,"Processing registration form for: {0}",user.getUserName());
 
         projectService.save(theCrmProjects);
 

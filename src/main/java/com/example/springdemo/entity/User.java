@@ -3,7 +3,6 @@ package com.example.springdemo.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -51,24 +50,15 @@ public class User {
     @Column(name = "city")
     private String city;
 
+    @Column(name = "state")
+    private String state;
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<Role> roles;
 
-    public User(int id, String firstName, String lastName, String email, String phoneNo, String gender, String qualification, String organisation, String city, String state) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.phoneNo = phoneNo;
-        this.gender = gender;
-        this.qualification = qualification;
-        this.organisation = organisation;
-        this.city = city;
-        this.state = state;
-    }
 
     public User(int id, String userName, String password, String firstName, String lastName, String email, String phoneNo, String gender, String qualification, String organisation, String city, String state, Collection<Role> roles) {
         this.id = id;
@@ -86,23 +76,12 @@ public class User {
         this.state = state;
     }
 
-    @Column(name = "state")
-    private String state;
+
 
 
 
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "user", cascade = {CascadeType.ALL})
     private List<Projects> userProjects;
-
-    public void addProject(Projects project)
-    {
-        if (userProjects == null)
-        {
-            userProjects = new ArrayList<>();
-        }
-        userProjects.add(project);
-    }
-
 
 
     @Override

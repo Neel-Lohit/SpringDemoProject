@@ -36,7 +36,7 @@ public class UserController {
     @GetMapping("/listUserProjects")
     public String listUserProjects(@RequestParam("userId") int userid,Model model){
 
-        logger.log(Level.INFO,"user id: {0}",userid);
+        logger.log(Level.INFO,"listing projects for user id: {0}",userid);
 
         User user = userService.findById(userid);
         model.addAttribute("userProjects",user.getUserProjects());
@@ -76,7 +76,7 @@ public class UserController {
         if (theBindingResult.hasErrors()) {
             return "update-project";
         }
-
+        logger.log(Level.INFO,"saving project id: {0}",crmProjects.getId());
         projectService.save(crmProjects);
 
 
@@ -86,6 +86,8 @@ public class UserController {
     @GetMapping("/deleteProject")
     public String deleteProject(@RequestParam("projectId") int id){
 
+
+        logger.log(Level.INFO,"deleting project id: {0}",id);
         int userId = projectService.findById(id).getUser().getId();
         projectService.deleteById(id);
 
@@ -94,28 +96,6 @@ public class UserController {
 
 
 
-    @GetMapping("/registerUser")
-    public String registerUser(Model model)
-    {
-        User user = new User();
 
-        model.addAttribute("user",user);
-
-        return "user-registration-form";
-    }
-
-
-
-
-
-
-
-    @GetMapping("/delete")
-    public String deleteUser(@RequestParam("userId") int id){
-
-        userService.deleteById(id);
-
-        return "redirect:/user/list";
-    }
 
 }

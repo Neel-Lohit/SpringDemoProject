@@ -2,7 +2,8 @@ package com.example.springdemo.service;
 
 import com.example.springdemo.dao.InvestorProjectRepository;
 import com.example.springdemo.entity.InvestorProjects;
-import com.example.springdemo.exception.UserNotFoundException;
+import com.example.springdemo.entity.ProjectPK;
+import com.example.springdemo.exception.InvestorProjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,15 +28,15 @@ public class InvestorProjectServiceImpl implements InvestorProjectService{
     }
 
     @Override
-    public InvestorProjects findById(int theId) {
-        Optional<InvestorProjects> result = investorProjectRepository.findById(theId);
+    public InvestorProjects findById(ProjectPK projectPK) {
+        Optional<InvestorProjects> result = investorProjectRepository.findById(projectPK);
 
         InvestorProjects investorProjects;
         if (result.isPresent()){
             investorProjects = result.get();
         }
         else {
-            throw new UserNotFoundException("Did not find InvestorProject id - " + theId);
+            throw new InvestorProjectNotFoundException("Did not find InvestorProject id - " + projectPK);
         }
         return investorProjects;
 
@@ -48,8 +49,8 @@ public class InvestorProjectServiceImpl implements InvestorProjectService{
     }
 
     @Override
-    public void deleteById(int theId) {
-        investorProjectRepository.deleteById(theId);
+    public void deleteById(ProjectPK projectPK) {
+        investorProjectRepository.deleteById(projectPK);
 
     }
 }

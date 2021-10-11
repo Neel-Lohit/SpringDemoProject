@@ -66,7 +66,7 @@ public class InvestorServiceImpl implements InvestorService {
         investor.setRoles(Collections.singletonList(roleDao.findRoleByName("ROLE_INVESTOR")));
 
         // save investor in the database
-        investorDao.save(investor);
+        investorRepository.save(investor);
     }
 
 
@@ -85,7 +85,7 @@ public class InvestorServiceImpl implements InvestorService {
             investor = result.get();
         }
         else {
-            throw new InvestorNotFoundException("Did not find User id - " + theId);
+            throw new InvestorNotFoundException("Did not find investor id - " + theId);
         }
         return investor;
     }
