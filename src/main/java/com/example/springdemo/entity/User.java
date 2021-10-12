@@ -60,26 +60,6 @@ public class User {
     private Collection<Role> roles;
 
 
-    public User(int id, String userName, String password, String firstName, String lastName, String email, String phoneNo, String gender, String qualification, String organisation, String city, String state, Collection<Role> roles) {
-        this.id = id;
-        this.userName = userName;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.phoneNo = phoneNo;
-        this.gender = gender;
-        this.qualification = qualification;
-        this.organisation = organisation;
-        this.city = city;
-        this.roles = roles;
-        this.state = state;
-    }
-
-
-
-
-
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "user", cascade = {CascadeType.ALL})
     private List<Projects> userProjects;
 

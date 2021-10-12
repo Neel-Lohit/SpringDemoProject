@@ -64,33 +64,4 @@ public class Investor{
     private List<InvestorProjects> investorProjects;
 
 
-    public Investor(int id, String userName, String password, String firstName, String lastName, String email, String phoneNo, String gender, String qualification, String organisation, String city, String state) {
-        this.id = id;
-        this.userName = userName;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.phoneNo = phoneNo;
-        this.gender = gender;
-        this.qualification = qualification;
-        this.organisation = organisation;
-        this.city = city;
-        this.state = state;
-    }
-
-
-
-
-
-
-
-
-
-
-        
-
-
-
-
 }
