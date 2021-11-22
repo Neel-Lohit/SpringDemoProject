@@ -26,6 +26,7 @@ jobs:
         with:
           image: docktorneel/docker-spring-boot
           tags: $((${{ secrets.MAJOR }})).$((${{ secrets.MINOR }}+1))
+          #versioning successful
           registry: docker.io
           dockerfile: Dockerfile
           username: ${{secrets.DOCKER_USERNAME}}
