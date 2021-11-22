@@ -39,6 +39,7 @@ jobs:
             value: $((${{ secrets.MINOR }}+1))
             repository: Neel-Lohit/SpringDemoProject
             token: ${{ secrets.REPO_ACCESS_TOKEN }} # for accessing the repository
+            #versioning done
 
       - name: Cache SonarCloud packages
         uses: actions/cache@v1
